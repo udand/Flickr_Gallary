@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,6 +19,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 
 import com.flickrgallery.data.Object;
 import com.flickrgallery.observer.Observer;
@@ -27,7 +29,8 @@ import com.flickrgallery.util.Util;
 import com.google.gson.Gson;
 
 /**
- * MainActivity displays the photos from flciker api  in gridview. 
+ * MainActivity displays the photos from flciker api in gridview.
+ * 
  * @author Umang
  */
 public class MainActivity extends Activity implements Observer {
@@ -49,6 +52,17 @@ public class MainActivity extends Activity implements Observer {
 				+ Util.API_KEY + "&format=json&nojsoncallback=1";
 		System.out.println("Url:" + Url);
 
+		//TODO: work on file save method ,service mechanism to refresh gallery
+		File file = new File(Util.DIR_PATH);
+		for (File file2 : file.listFiles()) {
+			file2.delete();
+		}
+		File file1 = new File(Util.DIR_PATH_FULL_IMAGE);
+		for (File file2 : file1.listFiles()) {
+			file2.delete();
+		}
+		
+		
 		GetList getList = new GetList();
 		getList.registerObserver(this);
 		getList.execute(Url);
@@ -57,6 +71,11 @@ public class MainActivity extends Activity implements Observer {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
+
+		MenuItem searchViewItem = menu.findItem(R.id.menu_search);
+		SearchView searchView = (SearchView) searchViewItem.getActionView();
+		searchView.setIconifiedByDefault(false);
+
 		return true;
 	}
 
