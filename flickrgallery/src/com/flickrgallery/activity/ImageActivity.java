@@ -2,7 +2,6 @@ package com.flickrgallery.activity;
 
 import java.io.File;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,7 +10,6 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.flickrgallery.observer.Observer;
