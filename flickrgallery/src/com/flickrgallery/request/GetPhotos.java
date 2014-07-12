@@ -47,7 +47,7 @@ public class GetPhotos extends AsyncTask<Object, Void, String> implements
 				if (!file2.exists()) {
 					downloadImage("https://farm" + photos.farm
 							+ ".staticflickr.com/" + photos.server + "/"
-							+ photos.id + "_" + photos.secret + "_" + "t" + ".jpg", photos.id);
+							+ photos.id + "_" + photos.secret + "_" + "q" + ".jpg", photos.id);
 				}
 			}
 		}
