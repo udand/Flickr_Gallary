@@ -16,14 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 
-import com.flickrgallery.data.Object;
+import com.flickrgallery.data.Data;
 import com.flickrgallery.data.Photo;
 import com.flickrgallery.observer.Observer;
 import com.flickrgallery.request.GetList;
@@ -33,13 +32,12 @@ import com.google.gson.Gson;
 
 /**
  * MainActivity displays the photos from flciker api in gridview.
- * 
  * @author Umang
  */
 public class MainActivity extends Activity implements Observer {
 
 	private GridView gridView;
-	private Object result = null;
+	private Data result = null;
 	private ImageAdapter imageAdapter;
 	private ProgressBar progressBar;
 	private HashSet<String> filePaths = new HashSet<String>();
@@ -117,11 +115,16 @@ public class MainActivity extends Activity implements Observer {
 	}
 
 	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
 	public void update(String string) {
 		if (!string.equalsIgnoreCase("DOWNLOAD_COMPLETE")) {
 			System.out.println("Result in update::" + string);
 			Gson gson = new Gson();
-			result = gson.fromJson(string, Object.class);
+			result = gson.fromJson(string, Data.class);
 			System.out.println("size of the photos list:"
 					+ result.photosResult.photosList.size());
 			GetPhotos getPhotos = new GetPhotos();
