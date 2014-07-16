@@ -113,10 +113,10 @@ public  class TitleFragment extends Fragment implements Observer {
 
 				Photo photo = (Photo) view.getTag();
 				if (mDualPane) {
-					ImageActivity details = (ImageActivity) getFragmentManager()
+					DetailFragment details = (DetailFragment) getFragmentManager()
 							.findFragmentById(R.id.details1);
 
-					details = ImageActivity.newInstance(index);
+					details = DetailFragment.newInstance(index);
 					Bundle bundle = new Bundle();
 					bundle.putString("id", photo.id);
 					bundle.putString("farm", photo.farm);
