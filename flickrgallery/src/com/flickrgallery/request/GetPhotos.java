@@ -49,11 +49,11 @@ public class GetPhotos extends AsyncTask<Data, Void, String> implements
 					downloadImage("https://farm" + photos.farm
 							+ ".staticflickr.com/" + photos.server + "/"
 							+ photos.id + "_" + photos.secret + "_" + "q" + ".jpg", photos.id);
-					count ++;
-					if (count >= 5) {
-						count = 0;
-						notifyObservers();
-					}
+//					count ++;
+//					if (count >= 5) {
+//						count = 0;
+//						notifyObservers();
+//					}
 				}
 			}
 		}
@@ -68,7 +68,7 @@ public class GetPhotos extends AsyncTask<Data, Void, String> implements
 	@Override
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
-		
+		notifyObservers();
 	}
 
 	@Override
