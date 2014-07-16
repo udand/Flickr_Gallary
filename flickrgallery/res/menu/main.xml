@@ -8,7 +8,7 @@
     <item
         android:id="@+id/menu_search"
         android:actionViewClass="android.widget.SearchView"
-        android:showAsAction="always"
+        android:showAsAction="collapseActionView"
         android:title="@string/search_txt"/>
 
 </menu>

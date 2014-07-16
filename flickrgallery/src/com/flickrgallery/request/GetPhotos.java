@@ -12,7 +12,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Bitmap.CompressFormat;
 import android.os.AsyncTask;
 
-import com.flickrgallery.data.Object;
+import com.flickrgallery.data.Data;
 import com.flickrgallery.data.Photo;
 import com.flickrgallery.observer.Observable;
 import com.flickrgallery.observer.Observer;
@@ -22,7 +22,7 @@ import com.flickrgallery.util.Util;
  * Download Thumblin list of photos/
  * @author Umang
  */
-public class GetPhotos extends AsyncTask<Object, Void, String> implements
+public class GetPhotos extends AsyncTask<Data, Void, String> implements
 		Observable {
 	private Observer observer;
 	
@@ -35,11 +35,12 @@ public class GetPhotos extends AsyncTask<Object, Void, String> implements
 	}
 
 	@Override
-	protected String doInBackground(Object... params) {
-		Object object = params[0];
+	protected String doInBackground(Data... params) {
+		Data object = params[0];
 		if (object != null && object.photosResult != null
 				&& object.photosResult.photosList != null
 				&& object.photosResult.photosList.size() > 0) {
+			int count = 0;
 			for (Photo photos : object.photosResult.photosList) {
 				// https://farm4.staticflickr.com/3898/14418693540_26d39b34d8_t.jpg"
 				
@@ -48,6 +49,11 @@ public class GetPhotos extends AsyncTask<Object, Void, String> implements
 					downloadImage("https://farm" + photos.farm
 							+ ".staticflickr.com/" + photos.server + "/"
 							+ photos.id + "_" + photos.secret + "_" + "q" + ".jpg", photos.id);
+//					count ++;
+//					if (count >= 5) {
+//						count = 0;
+//						notifyObservers();
+//					}
 				}
 			}
 		}
