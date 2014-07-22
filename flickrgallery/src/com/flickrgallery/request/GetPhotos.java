@@ -40,7 +40,7 @@ public class GetPhotos extends AsyncTask<Data, Void, String> implements
 		if (object != null && object.photosResult != null
 				&& object.photosResult.photosList != null
 				&& object.photosResult.photosList.size() > 0) {
-			int count = 0;
+//			int count = 0;
 			for (Photo photos : object.photosResult.photosList) {
 				// https://farm4.staticflickr.com/3898/14418693540_26d39b34d8_t.jpg"
 				
