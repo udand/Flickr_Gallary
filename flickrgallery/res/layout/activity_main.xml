@@ -13,12 +13,17 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:columnWidth="120dp"
+            android:fastScrollEnabled="true"
             android:gravity="center"
             android:horizontalSpacing="3dp"
             android:numColumns="3"
             android:padding="3dp"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollingCache="true"
+            android:smoothScrollbar="true"
             android:stretchMode="columnWidth"
             android:verticalSpacing="3dp" >
+
         </GridView>
 
         <ProgressBar

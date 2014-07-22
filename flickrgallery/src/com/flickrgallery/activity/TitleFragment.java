@@ -2,7 +2,7 @@ package com.flickrgallery.activity;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -37,7 +37,7 @@ public  class TitleFragment extends Fragment implements Observer {
 	private Data result = null;
 	private ImageAdapter imageAdapter;
 	private ProgressBar progressBar;
-	private HashSet<String> filePaths = new HashSet<String>();
+	private LinkedHashSet<String> filePaths = new LinkedHashSet<String>();
 	private File file;
 	private boolean mDualPane;
 	private int index = 0;
@@ -48,17 +48,6 @@ public  class TitleFragment extends Fragment implements Observer {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
 	}
-
-	public static TitleFragment setUrl(String url) {
-		TitleFragment f = new TitleFragment();
-
-		// Supply index input as an argument.
-		Bundle args = new Bundle();
-		args.putString("url", url);
-		f.setArguments(args);
-		return f;
-	}
-	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,23 +58,20 @@ public  class TitleFragment extends Fragment implements Observer {
 
 		gridView = (GridView) view.findViewById(R.id.gridView1);
 		progressBar = (ProgressBar) view.findViewById(R.id.progressBar1);
-		
+		progressBar.setVisibility(View.GONE);
 		
 		if (Util.URL == null) {
 			Url = Util.LIST_URL + Util.METHOD_GET_PHOTOS + "&"
 					+ Util.API_KEY + "&format=json&nojsoncallback=1";
-			System.out.println("Url:" + Url);
 		} else {
 			Url = Util.URL;
 		}
 		File file = new File(Util.DIR_PATH);
-		System.out.println("-------------------ddd:" + file.mkdirs());
 		if (file.exists())
 			for (File file2 : file.listFiles()) {
 				file2.delete();
 			}
 		File file1 = new File(Util.DIR_PATH_FULL_IMAGE);
-		System.out.println("-------------------eee:" + file1.mkdirs());
 		if (file1.exists())
 			for (File file2 : file1.listFiles()) {
 				file2.delete();
@@ -169,29 +155,26 @@ public  class TitleFragment extends Fragment implements Observer {
 	@Override
 	public void update(String string) {
 		if (!string.equalsIgnoreCase("DOWNLOAD_COMPLETE")) {
-			System.out.println("Result in update::" + string);
 			Gson gson = new Gson();
 			result = gson.fromJson(string, Data.class);
-			System.out.println("size of the photos list:"
-					+ result.photosResult.photosList.size());
 			GetPhotos getPhotos = new GetPhotos();
 			getPhotos.registerObserver(this);
 			getPhotos.execute(result);
 		} else if (string.equals("DOWNLOAD_COMPLETE")) {
 			System.out.println("Downloaded imagedd");
-			 progressBar.setVisibility(View.GONE);
+//			progressBar.setVisibility(View.GONE);
 			file = new File(Util.DIR_PATH);
-			System.out.println("============length::"
-					+ file.listFiles().length);
 			for (File files : file.listFiles()) {
-				filePaths.add(files.getAbsolutePath());
+				synchronized (filePaths) {
+					filePaths.add(files.getAbsolutePath());
+				}
 			}
 
 			getActivity().runOnUiThread(new Runnable() {
 
 				@Override
 				public void run() {
-					gridView.invalidate();
+					imageAdapter.notifyDataSetChanged();
 				}
 			});
 
@@ -228,6 +211,8 @@ public  class TitleFragment extends Fragment implements Observer {
 
 			if (view != null) {
 				imageView = (ImageView) view;
+				imageView.setImageDrawable(getResources().getDrawable(
+						R.drawable.ic_launcher));
 				imageView.setTag(null);
 			} else {
 				imageView = new ImageView(context);
@@ -241,15 +226,17 @@ public  class TitleFragment extends Fragment implements Observer {
 				imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 				imageView.setTag(null);
 			}
-			if (filePaths != null && filePaths.size() > position) {
-				Bitmap bitmap = BitmapFactory.decodeFile(filePaths
-						.toArray()[position].toString());
-				imageView.setTag(null);
-				String[] str = filePaths.toArray()[position].toString()
-						.split("/");
-				imageView.setTag(getPhoto(str[str.length - 1],
-						result.photosResult.photosList));
-				imageView.setImageBitmap(bitmap);
+			synchronized (filePaths) {
+				if (filePaths != null && filePaths.size() > position) {
+					Bitmap bitmap = BitmapFactory.decodeFile(filePaths
+							.toArray()[position].toString());
+					imageView.setTag(null);
+					String[] str = filePaths.toArray()[position].toString()
+							.split("/");
+					imageView.setTag(getPhoto(str[str.length - 1],
+							result.photosResult.photosList));
+					imageView.setImageBitmap(bitmap);
+				}
 			}
 			return imageView;
 		}

@@ -20,12 +20,10 @@ import com.flickrgallery.util.Util;
 
 /**
  * Download the larger image and display in Imageview.
- * 
  * @author Umang
  */
 public class DetailFragment extends Fragment implements Observer {
 
-	private TextView imageTitle;
 	private String id;
 	private String farm, server, secret, title;
 
@@ -67,8 +65,6 @@ public class DetailFragment extends Fragment implements Observer {
 		} else {
 			GetOrigianlPhoto getOrigianlPhoto = new GetOrigianlPhoto();
 			getOrigianlPhoto.registerObserver(this);
-			System.out.println("URI::" + farm + ":" + id + ":" + server + ":"
-					+ secret);
 			getOrigianlPhoto.execute(farm + ":" + id + ":" + server + ":"
 					+ secret);
 		}
@@ -90,13 +86,11 @@ public class DetailFragment extends Fragment implements Observer {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
-		System.out.println("on create");
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		System.out.println("I am gerehhhhhhhhhhh:"+savedInstanceState);
 		if (savedInstanceState != null) {
 			farm = savedInstanceState.getString("farm");
 			id = savedInstanceState.getString("id");
@@ -114,12 +108,9 @@ public class DetailFragment extends Fragment implements Observer {
 		}
 	}
 	
-
-
-	public void displayImage(File file) {
+	private void displayImage(File file) {
 		ProgressBar progressBar = (ProgressBar) getActivity().findViewById(R.id.progressBar1);
 		progressBar.setVisibility(View.GONE);
-		System.out.println("File exsits-------------------------------:" + file.exists());
 		Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
 		ImageView imageView1 = (ImageView) getActivity().findViewById(R.id.imageView1);
 		imageView1.setImageBitmap(bitmap);
