@@ -211,6 +211,8 @@ public  class TitleFragment extends Fragment implements Observer {
 
 			if (view != null) {
 				imageView = (ImageView) view;
+				imageView.setImageDrawable(getResources().getDrawable(
+						R.drawable.ic_launcher));
 				imageView.setTag(null);
 			} else {
 				imageView = new ImageView(context);
