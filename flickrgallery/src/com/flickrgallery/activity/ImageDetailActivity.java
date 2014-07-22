@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
+/**
+ * Imagedetail activity for potratit mode.
+ * @author Umang
+ */
 public class ImageDetailActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
