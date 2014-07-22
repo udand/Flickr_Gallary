@@ -52,7 +52,7 @@ public class GetPhotos extends AsyncTask<Data, Void, String> implements
 //					count ++;
 //					if (count >= 5) {
 //						count = 0;
-//						notifyObservers();
+						notifyObservers();
 //					}
 				}
 			}
@@ -68,7 +68,7 @@ public class GetPhotos extends AsyncTask<Data, Void, String> implements
 	@Override
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
-		notifyObservers();
+//		notifyObservers();
 	}
 
 	@Override
