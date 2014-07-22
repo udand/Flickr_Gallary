@@ -48,17 +48,6 @@ public  class TitleFragment extends Fragment implements Observer {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
 	}
-
-	public static TitleFragment setUrl(String url) {
-		TitleFragment f = new TitleFragment();
-
-		// Supply index input as an argument.
-		Bundle args = new Bundle();
-		args.putString("url", url);
-		f.setArguments(args);
-		return f;
-	}
-	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,18 +63,15 @@ public  class TitleFragment extends Fragment implements Observer {
 		if (Util.URL == null) {
 			Url = Util.LIST_URL + Util.METHOD_GET_PHOTOS + "&"
 					+ Util.API_KEY + "&format=json&nojsoncallback=1";
-			System.out.println("Url:" + Url);
 		} else {
 			Url = Util.URL;
 		}
 		File file = new File(Util.DIR_PATH);
-		System.out.println("-------------------ddd:" + file.mkdirs());
 		if (file.exists())
 			for (File file2 : file.listFiles()) {
 				file2.delete();
 			}
 		File file1 = new File(Util.DIR_PATH_FULL_IMAGE);
-		System.out.println("-------------------eee:" + file1.mkdirs());
 		if (file1.exists())
 			for (File file2 : file1.listFiles()) {
 				file2.delete();
@@ -169,11 +155,8 @@ public  class TitleFragment extends Fragment implements Observer {
 	@Override
 	public void update(String string) {
 		if (!string.equalsIgnoreCase("DOWNLOAD_COMPLETE")) {
-			System.out.println("Result in update::" + string);
 			Gson gson = new Gson();
 			result = gson.fromJson(string, Data.class);
-			System.out.println("size of the photos list:"
-					+ result.photosResult.photosList.size());
 			GetPhotos getPhotos = new GetPhotos();
 			getPhotos.registerObserver(this);
 			getPhotos.execute(result);
@@ -181,8 +164,6 @@ public  class TitleFragment extends Fragment implements Observer {
 			System.out.println("Downloaded imagedd");
 			 progressBar.setVisibility(View.GONE);
 			file = new File(Util.DIR_PATH);
-			System.out.println("============length::"
-					+ file.listFiles().length);
 			for (File files : file.listFiles()) {
 				filePaths.add(files.getAbsolutePath());
 			}
