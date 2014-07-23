@@ -37,7 +37,6 @@ public class GetList extends AsyncTask<String, Void, String> implements Observab
 				response.getEntity().writeTo(out);
 				out.close();
 				result = out.toString();
-				System.out.println("Asyn result:"+result);
 			} else {
 				response.getEntity().getContent().close();
 				throw new IOException(statusLine.getReasonPhrase());
