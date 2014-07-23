@@ -33,9 +33,9 @@ public class GetOrigianlPhoto extends AsyncTask<String, Void, String> implements
 		String url = params[0];
 		String[] param = url.split(":");
 		
-		System.out.println("Image --------- Url:"+"https://farm" + param[0]
-						+ ".staticflickr.com/" + param[2] + "/"
-						+ param[1] + "_" + param[3] + "_" + "b" + ".jpg");
+//		System.out.println("Image --------- Url:"+"https://farm" + param[0]
+//						+ ".staticflickr.com/" + param[2] + "/"
+//						+ param[1] + "_" + param[3] + "_" + "b" + ".jpg");
 		
 		downloadImage("https://farm" + param[0]
 						+ ".staticflickr.com/" + param[2] + "/"
