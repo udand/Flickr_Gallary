@@ -31,7 +31,7 @@ import com.flickrgallery.request.GetPhotos;
 import com.flickrgallery.util.Util;
 import com.google.gson.Gson;
 
-public  class TitleFragment extends Fragment implements Observer {
+public class TitleFragment extends Fragment implements Observer {
 
 	private GridView gridView;
 	private Data result = null;
@@ -42,42 +42,41 @@ public  class TitleFragment extends Fragment implements Observer {
 	private boolean mDualPane;
 	private int index = 0;
 	private int length = 0;
+	private GetPhotos getPhotos;
 	public static String Url = null;
-	
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		View view = inflater.inflate(R.layout.activity_main, container,
-				false);
+		View view = inflater.inflate(R.layout.activity_main, container, false);
 
 		gridView = (GridView) view.findViewById(R.id.gridView1);
 		progressBar = (ProgressBar) view.findViewById(R.id.progressBar1);
 		progressBar.setVisibility(View.GONE);
-		
+
 		if (Util.URL == null) {
-			Url = Util.LIST_URL + Util.METHOD_GET_PHOTOS + "&"
-					+ Util.API_KEY + "&format=json&nojsoncallback=1";
+			File file = new File(Util.DIR_PATH);
+			if (file.exists())
+				for (File file2 : file.listFiles()) {
+					file2.delete();
+				}
+			File file1 = new File(Util.DIR_PATH_FULL_IMAGE);
+			if (file1.exists())
+				for (File file2 : file1.listFiles()) {
+					file2.delete();
+				}
+			Url = Util.LIST_URL + Util.METHOD_GET_PHOTOS + "&" + Util.API_KEY
+					+ "&format=json&nojsoncallback=1";
 		} else {
 			Url = Util.URL;
 		}
-		File file = new File(Util.DIR_PATH);
-		if (file.exists())
-			for (File file2 : file.listFiles()) {
-				file2.delete();
-			}
-		File file1 = new File(Util.DIR_PATH_FULL_IMAGE);
-		if (file1.exists())
-			for (File file2 : file1.listFiles()) {
-				file2.delete();
-			}
 
 		GetList getList = new GetList();
 		getList.registerObserver(this);
@@ -160,12 +159,16 @@ public  class TitleFragment extends Fragment implements Observer {
 			Gson gson = new Gson();
 			result = gson.fromJson(string, Data.class);
 			length = result.photosResult.photosList.size();
-			GetPhotos getPhotos = new GetPhotos();
+			if (Url.contains("search")) {
+				getPhotos = new GetPhotos(Util.DIR_PATH_SEARCH_IMAGE);
+			} else {
+				getPhotos = new GetPhotos(Util.DIR_PATH);
+			}
 			getPhotos.registerObserver(this);
 			getPhotos.execute(result);
 		} else if (string.equals("DOWNLOAD_COMPLETE")) {
 			System.out.println("Downloaded imagedd");
-//			progressBar.setVisibility(View.GONE);
+			// progressBar.setVisibility(View.GONE);
 			file = new File(Util.DIR_PATH);
 			for (File files : file.listFiles()) {
 				synchronized (filePaths) {
@@ -223,8 +226,8 @@ public  class TitleFragment extends Fragment implements Observer {
 				int diplaySize = getResources().getDisplayMetrics().widthPixels;
 
 				int imageWidth = diplaySize / 3;
-				imageView.setLayoutParams(new GridView.LayoutParams(
-						imageWidth, imageWidth));
+				imageView.setLayoutParams(new GridView.LayoutParams(imageWidth,
+						imageWidth));
 				imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 				imageView.setTag(null);
 			}
