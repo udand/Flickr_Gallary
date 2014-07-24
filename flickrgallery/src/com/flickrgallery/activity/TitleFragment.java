@@ -78,11 +78,10 @@ public class TitleFragment extends Fragment implements Observer {
 			Url = Util.URL;
 		}
 
+		// Get the list of the data to download the photos.
 		GetList getList = new GetList();
 		getList.registerObserver(this);
 		getList.execute(Url);
-
-		// TODO: gridview
 
 		int displayWidth = getResources().getDisplayMetrics().widthPixels;
 
@@ -167,11 +166,11 @@ public class TitleFragment extends Fragment implements Observer {
 			getPhotos.registerObserver(this);
 			getPhotos.execute(result);
 		} else if (string.equals("DOWNLOAD_COMPLETE")) {
-//			System.out.println("Downloaded imagedd");
+			// System.out.println("Downloaded imagedd");
 			// progressBar.setVisibility(View.GONE);
 			if (Url.contains("search")) {
 				file = new File(Util.DIR_PATH_SEARCH_IMAGE);
-			} else{
+			} else {
 				file = new File(Util.DIR_PATH);
 			}
 			for (File files : file.listFiles()) {
@@ -191,6 +190,11 @@ public class TitleFragment extends Fragment implements Observer {
 		}
 	}
 
+	/**
+	 * ImageAdapter sets the bitmap from the files to gridview imageview.
+	 * 
+	 * @author Umang
+	 */
 	public class ImageAdapter extends BaseAdapter {
 
 		public Context context;
@@ -251,6 +255,15 @@ public class TitleFragment extends Fragment implements Observer {
 		}
 	}
 
+	/**
+	 * Find the details for the clicked photo in gridview.
+	 * 
+	 * @param id
+	 *            - photo id
+	 * @param arrayList
+	 *            - list of the photos
+	 * @return - @Photo object
+	 */
 	private Photo getPhoto(String id, ArrayList<Photo> arrayList) {
 		for (Photo photo : arrayList) {
 			if (photo.id.equalsIgnoreCase(id)) {
