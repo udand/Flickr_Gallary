@@ -48,8 +48,8 @@ public class DetailFragment extends Fragment implements Observer {
 		} else {
 			GetOrigianlPhoto getOrigianlPhoto = new GetOrigianlPhoto();
 			getOrigianlPhoto.registerObserver(this);
-			System.out.println("URI::" + farm + ":" + id + ":" + server + ":"
-					+ secret);
+//			System.out.println("URI::" + farm + ":" + id + ":" + server + ":"
+//					+ secret);
 			getOrigianlPhoto.execute(farm + ":" + id + ":" + server + ":"
 					+ secret);
 		}
@@ -57,23 +57,6 @@ public class DetailFragment extends Fragment implements Observer {
 		return view;
 	}
 	
-	public void displayImage(Bundle savedInstanceState) {
-		farm = savedInstanceState.getString("farm");
-		id = savedInstanceState.getString("id");
-		server = savedInstanceState.getString("server");
-		secret = savedInstanceState.getString("secret");
-		title = savedInstanceState.getString("title");
-		File file = new File(Util.DIR_PATH_FULL_IMAGE + id);
-		if (file.exists()) {
-			displayImage(file);
-		} else {
-			GetOrigianlPhoto getOrigianlPhoto = new GetOrigianlPhoto();
-			getOrigianlPhoto.registerObserver(this);
-			getOrigianlPhoto.execute(farm + ":" + id + ":" + server + ":"
-					+ secret);
-		}
-	}
-
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
