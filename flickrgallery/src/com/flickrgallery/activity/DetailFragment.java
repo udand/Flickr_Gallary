@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.flickrgallery.observer.Observer;
@@ -26,12 +25,17 @@ public class DetailFragment extends Fragment implements Observer {
 
 	private String id;
 	private String farm, server, secret, title;
-
+	private ImageView imageView1;
+	private TextView imageTitle;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		
 		View view = inflater.inflate(R.layout.full_image, container, false);
-
+		imageView1 = (ImageView) view.findViewById(R.id.imageView1);
+		imageTitle = (TextView) view.findViewById(R.id.imageTitle);
+		
 		if (this.getArguments() != null) {
 			farm = this.getArguments().getString("farm");
 			id = this.getArguments().getString("id");
@@ -109,12 +113,8 @@ public class DetailFragment extends Fragment implements Observer {
 	}
 	
 	private void displayImage(File file) {
-		ProgressBar progressBar = (ProgressBar) getActivity().findViewById(R.id.progressBar1);
-		progressBar.setVisibility(View.GONE);
 		Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-		ImageView imageView1 = (ImageView) getActivity().findViewById(R.id.imageView1);
 		imageView1.setImageBitmap(bitmap);
-		TextView imageTitle = (TextView) getActivity().findViewById(R.id.imageTitle);
 		imageTitle.setText(title);
 	}
 
