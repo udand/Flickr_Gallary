@@ -41,7 +41,9 @@ public  class TitleFragment extends Fragment implements Observer {
 	private File file;
 	private boolean mDualPane;
 	private int index = 0;
+	private int length = 0;
 	public static String Url = null;
+	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -157,6 +159,7 @@ public  class TitleFragment extends Fragment implements Observer {
 		if (!string.equalsIgnoreCase("DOWNLOAD_COMPLETE")) {
 			Gson gson = new Gson();
 			result = gson.fromJson(string, Data.class);
+			length = result.photosResult.photosList.size();
 			GetPhotos getPhotos = new GetPhotos();
 			getPhotos.registerObserver(this);
 			getPhotos.execute(result);
@@ -191,7 +194,6 @@ public  class TitleFragment extends Fragment implements Observer {
 
 		@Override
 		public int getCount() {
-			int length = 100;
 			return length;
 		}
 
