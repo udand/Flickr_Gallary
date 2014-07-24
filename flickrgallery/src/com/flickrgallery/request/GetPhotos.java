@@ -25,6 +25,11 @@ import com.flickrgallery.util.Util;
 public class GetPhotos extends AsyncTask<Data, Void, String> implements
 		Observable {
 	private Observer observer;
+	private String directoryPath;
+	
+	public GetPhotos(String directoryPath) {
+		this.directoryPath = directoryPath;
+	}
 	
 	@Override
 	protected void onPreExecute() {
@@ -81,10 +86,10 @@ public class GetPhotos extends AsyncTask<Data, Void, String> implements
 			URL url2 = new URL(Url);
 			Bitmap bitmap = BitmapFactory.decodeStream(url2.openConnection()
 					.getInputStream());
-			File file = new File(Util.DIR_PATH);
+			File file = new File(directoryPath);
 			if (!file.exists())
 				file.mkdir();
-			File file2 = new File(Util.DIR_PATH + id);
+			File file2 = new File(directoryPath + id);
 			OutputStream outputStream = new FileOutputStream(file2);
 			bitmap.compress(CompressFormat.JPEG, 100, outputStream);
 			outputStream.flush();
