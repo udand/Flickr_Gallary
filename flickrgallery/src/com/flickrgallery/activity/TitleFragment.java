@@ -167,9 +167,13 @@ public class TitleFragment extends Fragment implements Observer {
 			getPhotos.registerObserver(this);
 			getPhotos.execute(result);
 		} else if (string.equals("DOWNLOAD_COMPLETE")) {
-			System.out.println("Downloaded imagedd");
+//			System.out.println("Downloaded imagedd");
 			// progressBar.setVisibility(View.GONE);
-			file = new File(Util.DIR_PATH);
+			if (Url.contains("search")) {
+				file = new File(Util.DIR_PATH_SEARCH_IMAGE);
+			} else{
+				file = new File(Util.DIR_PATH);
+			}
 			for (File files : file.listFiles()) {
 				synchronized (filePaths) {
 					filePaths.add(files.getAbsolutePath());
