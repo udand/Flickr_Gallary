@@ -16,7 +16,6 @@ import com.flickrgallery.observer.Observer;
 import com.flickrgallery.request.GetOrigianlPhoto;
 import com.flickrgallery.util.Util;
 
-
 /**
  * Download the larger image and display in Imageview.
  * @author Umang
@@ -27,51 +26,32 @@ public class DetailFragment extends Fragment implements Observer {
 	private String farm, server, secret, title;
 	private ImageView imageView1;
 	private TextView imageTitle;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
+
 		View view = inflater.inflate(R.layout.full_image, container, false);
 		imageView1 = (ImageView) view.findViewById(R.id.imageView1);
 		imageTitle = (TextView) view.findViewById(R.id.imageTitle);
-		
+
 		if (this.getArguments() != null) {
 			farm = this.getArguments().getString("farm");
 			id = this.getArguments().getString("id");
 			server = this.getArguments().getString("server");
 			secret = this.getArguments().getString("secret");
 			title = this.getArguments().getString("title");
-		File file = new File(Util.DIR_PATH_FULL_IMAGE + id);
-		if (file.exists()) {
-			displayImage(file);
-		} else {
-			GetOrigianlPhoto getOrigianlPhoto = new GetOrigianlPhoto();
-			getOrigianlPhoto.registerObserver(this);
-			System.out.println("URI::" + farm + ":" + id + ":" + server + ":"
-					+ secret);
-			getOrigianlPhoto.execute(farm + ":" + id + ":" + server + ":"
-					+ secret);
-		}
+			File file = new File(Util.DIR_PATH_FULL_IMAGE + id);
+			if (file.exists()) {
+				displayImage(file);
+			} else {
+				GetOrigianlPhoto getOrigianlPhoto = new GetOrigianlPhoto();
+				getOrigianlPhoto.registerObserver(this);
+				getOrigianlPhoto.execute(farm + ":" + id + ":" + server + ":"
+						+ secret);
+			}
 		}
 		return view;
-	}
-	
-	public void displayImage(Bundle savedInstanceState) {
-		farm = savedInstanceState.getString("farm");
-		id = savedInstanceState.getString("id");
-		server = savedInstanceState.getString("server");
-		secret = savedInstanceState.getString("secret");
-		title = savedInstanceState.getString("title");
-		File file = new File(Util.DIR_PATH_FULL_IMAGE + id);
-		if (file.exists()) {
-			displayImage(file);
-		} else {
-			GetOrigianlPhoto getOrigianlPhoto = new GetOrigianlPhoto();
-			getOrigianlPhoto.registerObserver(this);
-			getOrigianlPhoto.execute(farm + ":" + id + ":" + server + ":"
-					+ secret);
-		}
 	}
 
 	@Override
@@ -111,7 +91,7 @@ public class DetailFragment extends Fragment implements Observer {
 			displayImage(file);
 		}
 	}
-	
+
 	private void displayImage(File file) {
 		Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
 		imageView1.setImageBitmap(bitmap);
@@ -127,9 +107,10 @@ public class DetailFragment extends Fragment implements Observer {
 		f.setArguments(args);
 		return f;
 	}
-	
+
 	public int getShownIndex() {
-		if (getArguments() == null) return -1;
+		if (getArguments() == null)
+			return -1;
 		return getArguments().getInt("index", 0);
 	}
 }
