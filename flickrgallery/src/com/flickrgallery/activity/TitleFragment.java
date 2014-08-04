@@ -61,6 +61,7 @@ public class TitleFragment extends Fragment implements Observer {
 		progressBar = (ProgressBar) view.findViewById(R.id.progressBar1);
 		progressBar.setVisibility(View.GONE);
 
+		// Util.Url set when user search for photo using keyword.
 		if (Util.URL == null) {
 			File file = new File(Util.DIR_PATH);
 			if (file.exists())
@@ -75,7 +76,7 @@ public class TitleFragment extends Fragment implements Observer {
 			Url = Util.LIST_URL + Util.METHOD_GET_PHOTOS + "&" + Util.API_KEY
 					+ "&format=json&nojsoncallback=1";
 		} else {
-			Url = Util.URL;
+			Url = Util.URL; // here for search feature activity.
 		}
 
 		// Get the list of the data to download the photos.
@@ -166,8 +167,6 @@ public class TitleFragment extends Fragment implements Observer {
 			getPhotos.registerObserver(this);
 			getPhotos.execute(result);
 		} else if (string.equals("DOWNLOAD_COMPLETE")) {
-			// System.out.println("Downloaded imagedd");
-			// progressBar.setVisibility(View.GONE);
 			if (Url.contains("search")) {
 				file = new File(Util.DIR_PATH_SEARCH_IMAGE);
 			} else {
@@ -257,7 +256,6 @@ public class TitleFragment extends Fragment implements Observer {
 
 	/**
 	 * Find the details for the clicked photo in gridview.
-	 * 
 	 * @param id
 	 *            - photo id
 	 * @param arrayList
